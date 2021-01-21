@@ -4,6 +4,6 @@
 const app = require("./app");
 
 const PORT = process.env.PORT || 3000;
-app.listen(process.env.PORT, function () {
-  console.log("Started starting!");
+app.listen(PORT, function () {
+  console.log(`Started starting! ${PORT}`);
 });

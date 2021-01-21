@@ -85,5 +85,3 @@ function doD3(path) {
 
 
 
-doD3(`../data/2020/New_Haven.csv`);
-

@@ -4,7 +4,7 @@ const $locations = $("#locations")
 let CURR_YEAR = 2020;
 let CURR_LOCATION = "Santa_Barbara";
 $('#name').text(CURR_LOCATION.split('_').join(' ') + ' in ');
-
+doD3(`../data/${CURR_YEAR}/${CURR_LOCATION}.csv`)
 
 const locations = [
   "Berkeley",
@@ -23,6 +23,7 @@ const locations = [
 ];
 
 function generateLocationMarkup(name) {
+
   const nameSplit = name.split(' ').join('_');
   return $(`
   <div id="${nameSplit}" class="place-container m-3">
@@ -34,6 +35,7 @@ function generateLocationMarkup(name) {
 }
 
 function putLocationsOnPage() {
+
   for (let location of locations) {
     const $location = generateLocationMarkup(location);
     $locations.append($location);
@@ -44,10 +46,8 @@ putLocationsOnPage();
 
 
 $locations.on('click', '.hvrbox-layer-top', function (evt) {
-  console.log('evt', evt);
   const hvrbox = $(evt.target);
   const location = hvrbox.closest('.place-container').attr('id');
-  console.log('location is', location);
 
   let path = `../data/${CURR_YEAR}/${location}.csv`;
   console.log('new path is', path);
@@ -73,7 +73,7 @@ console.log($years);
 
 function updateYear() {
   console.log('in update year')
-    const $years = $('#years');
+  const $years = $('#years');
   const year = $years.val();
   console.log("year is being updated", year);
   let path = `/data/${year}/${CURR_LOCATION}.csv`;
