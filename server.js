@@ -3,6 +3,7 @@
 
 const app = require("./app");
 
-app.listen(3000, function () {
-  console.log("Started http://localhost:3000/");
+const PORT = process.env.PORT || 3000;
+app.listen(process.env.PORT, function () {
+  console.log("Started starting!");
 });
