@@ -1,0 +1,127 @@
+body {
+    font-size: 12pt;
+}
+
+svg text {
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+svg {
+    display:block;
+	margin:auto;
+	margin-bottom:40px;
+	margin-top:10px;
+}
+
+#options {
+	display:inline;
+}
+
+img {
+    height:100%;
+    width:1005;
+    display:block;
+    transition: .2s ease;
+}
+
+#locations {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap:wrap;
+}
+
+#info {
+	text-align:center;
+}
+
+
+#name {
+	display: inline;
+}
+
+#name-container {
+	margin-bottom:15px;
+}
+
+#years {
+	font-size:30px;
+	position:relative;
+	bottom:2px;
+	left:2px;
+}
+
+.place-container, .place-container * {
+    box-sizing: border-box;
+}
+
+.place-container {
+    position: relative;
+	display: inline-block;
+	overflow: hidden;
+	max-width: 100%;
+	height: auto;
+}
+
+.hvrbox-layer-top {
+    cursor: pointer;
+}
+
+.place-container img {
+    max-width: 100%;
+    height: 120px;
+    width: 120px;
+}
+
+.place-container .hvrbox-layer_bottom {
+	display: block;
+}
+.place-container .hvrbox-layer-top {
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.6);
+	color: #fff;
+	/* padding: 15px; */
+	-moz-transition: all 0.2s ease-in-out 0s;
+	-webkit-transition: all 0.2s ease-in-out 0s;
+	-ms-transition: all 0.2s ease-in-out 0s;
+	transition: all 0.2s ease-in-out 0s;
+}
+
+.place-container:hover .hvrbox-layer-top,
+.place-container.active .hvrbox-layer-top {
+	opacity: 1;
+}
+.place-container .place-name-text {
+	text-align: center;
+	font-size: 18px;
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-moz-transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+.place-container .place-name-text_mobile {
+	font-size: 15px;
+	border-top: 1px solid rgb(179, 179, 179); /* for old browsers */
+	border-top: 1px solid rgba(179, 179, 179, 0.7);
+	margin-top: 5px;
+	padding-top: 2px;
+	display: none;
+}
+.place-container.active .place-name-text_mobile {
+	display: block;
+}
