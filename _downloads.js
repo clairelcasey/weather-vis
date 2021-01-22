@@ -30,10 +30,48 @@ const conditions = {
   "Thundery outbreaks possible": "Rain"
 }
 
-/* Make a request and return array of BART station data in format: 
+const years = [
+  2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020
+];
 
-]
-*/
+const locations = [
+  "Berkeley",
+  "Boston",
+  "Brunswick",
+  "Houston",
+  "London",
+  "Los Angeles",
+  "Minneapolis",
+  "New Haven",
+  "New York",
+  "Portland",
+  "Providence",
+  "Santa Barbara",
+  "Williamstown"
+];
+
+/**  Make a request and return array of weather data in format: 
+ * {
+        "date": "2013-04-20",
+        "astronomy": [
+          {
+            "sunrise": "05:21 AM", ...
+          }
+        ],
+        "maxtempC": "21",
+        "maxtempF": "71",...
+        "hourly": [
+          {
+            "time": "24",
+            "tempC": "21",
+            "tempF": "71",...
+            ],
+            "weatherDesc": [
+              {
+                "value": "Sunny"
+              }...
+ * */ 
+
 async function getAllData(months, name) {
   console.debug('getAllData');
   let data = [];
@@ -55,11 +93,12 @@ async function getAllData(months, name) {
   return data;
 }
 
+/** Format Data
+ * Map through and return an object for each day with only relevant details. 
+ * */ 
 
 function formatData(data) {
   console.debug('formatData');
-  // const unique = [...new Set(data.map(d => d.hourly[0].weatherDesc[0].value))]; // [ 'A', 'B']
-  // console.log('unique is', unique);
   const finalData = data.map(d => {
     UNIQUE_CONDITIONS.add(d.hourly[0].weatherDesc[0].value);
     let newDay = {
@@ -69,6 +108,7 @@ function formatData(data) {
       "Temperature": Number(d.avgtempF),
       "Precipitation": Number(d.hourly[0].precipInches),
       "Relative Humidity": Number(d.hourly[0].humidity),
+      // If no weather condition is provided, default to Sunny.
       "Conditions": conditions[d.hourly[0].weatherDesc[0].value] || "Sunny",
       "Old Conditions": conditions[d.hourly[0].weatherDesc[0].value]
     }
@@ -77,6 +117,8 @@ function formatData(data) {
   console.log('UNIQUE_CONDITIONS', UNIQUE_CONDITIONS);
   return finalData;
 }
+
+/* Get dates for a given year */
 
 function getDates(year) {
   return [
@@ -95,29 +137,7 @@ function getDates(year) {
   ]
 }
 
-function doD3(data) {
-  var t;
-  refresh = () => {
-    const diameter = +options.diameter.value;
-    clearTimeout(t);
-    t = setTimeout(() => {
-      console.log('data in script tag', data);
-      d3.select("svg").remove();
-      const svg = d3.select("body")
-        .append("svg")
-        .attr("viewBox", `${-diameter / 2} ${-diameter / 2} ${diameter} ${diameter}`)
-        .style("width", diameter)
-        .style("height", diameter);
-
-      const wheel = new WeatherWheel(svg)
-        .size([diameter, diameter])
-        .icon(icon)
-        .data(data)
-        .render();
-    }, 50);
-  }
-  refresh();
-}
+/* Convert array to CSV format to download. */
 
 function arrayToCSV(objArray) {
   const array = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray;
@@ -129,27 +149,7 @@ function arrayToCSV(objArray) {
   }, str);
 }
 
-
-
-const years = [
-  2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020
-];
-
-const locations = [
-  "Berkeley",
-  "Boston",
-  "Brunswick",
-  "Houston",
-  "London",
-  "Los Angeles",
-  "Minneapolis",
-  "New Haven",
-  "New York",
-  "Portland",
-  "Providence",
-  "Santa Barbara",
-  "Williamstown"
-];
+/* For each year and location, download data. */
 
 async function driver() {
   for (let year of years) {
@@ -159,6 +159,12 @@ async function driver() {
   }
 }
 
+/*
+*  Download data for a given year and month. 
+* Calls getAllData with months and name passed in, 
+* calls format data, converts data to CSV, 
+* and writes CSV data to a path with year and name.
+*/
 
 async function downloadAll(year, name) {
   let months = getDates(year);
@@ -171,12 +177,7 @@ async function downloadAll(year, name) {
   const path = `./data/${year}/${nameUnder}.csv`
   fsP.writeFile(path, csvData, 'utf8');
 
-  // doD3(data);
 }
 
 driver();
-// $('#year-button').on('click', function(evt) {
-//   const year = $('#year-input').val();
-//   start(year);
-//  });
 

@@ -583,8 +583,9 @@ class WeatherWheel {
             cond: key,
             count: value.length,
             color: this._condColors[key].color
-        }));
-
+        }
+        ));
+        console.log('grouped',grouped)
         return d3.pack()
             .size([w, w])
             .padding(1)(
